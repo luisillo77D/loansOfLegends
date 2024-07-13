@@ -52,3 +52,13 @@ export const getActiveLoans = async (req, res) => {
         console.error(error);
     }
 }
+
+//metodo para obtener todos los prestamos
+export const getLoans = async (req, res) => {
+    try {
+        const loans = await Loan.find();
+        res.status(200).json(loans);
+    } catch (error) {
+        console.error(error);
+    }
+}
