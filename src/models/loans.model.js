@@ -18,6 +18,10 @@ const loanSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    weeklyMount: {
+        type: Number,
+        required: true,
+    },
     paid: {
         type: Boolean,
         default: false,

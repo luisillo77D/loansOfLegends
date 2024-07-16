@@ -8,7 +8,7 @@ export const registerLoan = async (req, res) => {
         //asignamos la start date al domingo de la semana siguiente
         const startDate = new Date();
         startDate.setDate(startDate.getDate() - startDate.getDay() + 7);
-        console.log(startDate);
+        const weeklyMount = total / 15;
         //asignamos la end date 15 semanas despues de la fecha de inicio
         const endDate = new Date(startDate.getTime() + 15 * 7 * 24 * 60 * 60 * 1000);
         console.log(endDate);
@@ -18,6 +18,7 @@ export const registerLoan = async (req, res) => {
             amount,
             interest: interestRate,
             total,
+            weeklyMount,
             guarantor: guarantorId,
             startDate,
             endDate
