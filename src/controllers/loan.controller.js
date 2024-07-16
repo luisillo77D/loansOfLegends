@@ -25,19 +25,6 @@ export const registerLoan = async (req, res) => {
         });
         // Save Loan in the database
         const newLoan = await loan.save();
-        // Save Weekly Payments in the database
-        const weeklyPayments = [];
-        for (let i = 1; i <= 15; i++) {
-            const weeklyPayment = new WeeklyPayment({
-                loan: newLoan._id,
-                weekNumber: i,
-                dueDate: new Date(startDate.getTime() + i * 7 * 24 * 60 * 60 * 1000),
-                amountDue: total / 15
-            });
-            weeklyPayments.push(weeklyPayment);
-        }
-        const WeeklyPayments = await WeeklyPayment.insertMany(weeklyPayments);
-        console.log(WeeklyPayments);
         res.status(201).json(newLoan);
     } catch (error) {
         console.error(error);
