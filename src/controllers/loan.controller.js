@@ -88,3 +88,14 @@ export const getWeeklyPayments = async (req, res) => {
         console.error(error);
     }
 }
+
+export const getLoansbyType = async (req, res) => {
+    try {
+        const { loanType } = req.params;
+        const loans = await Loan.find({ loanType: loanType });
+        res.status(200).json(loans);
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
