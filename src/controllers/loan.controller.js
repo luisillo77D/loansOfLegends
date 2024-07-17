@@ -4,7 +4,7 @@ import WeeklyPayment from "../models/weeklyPayment.model.js";
 // Create and Save a new Loan
 export const registerLoan = async (req, res) => {
     try {
-        const { clientId, amount, interestRate, total, guarantorId } = req.body;
+        const { clientId, amount, interestRate, total, guarantorId,loanType } = req.body;
         //asignamos la start date al domingo de la semana siguiente
         const startDate = new Date();
         startDate.setDate(startDate.getDate() - startDate.getDay() + 7);
@@ -21,7 +21,8 @@ export const registerLoan = async (req, res) => {
             weeklyMount,
             guarantor: guarantorId,
             startDate,
-            endDate
+            endDate,
+            loanType
         });
         // Save Loan in the database
         const newLoan = await loan.save();

@@ -43,6 +43,10 @@ const loanSchema = new mongoose.Schema({
         ref: "Client",
         required: true,
     },
+    loanType: {
+        type: String,
+        required: true,
+    },
     });
 
 export default mongoose.model("Loan", loanSchema);
