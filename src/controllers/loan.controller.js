@@ -4,10 +4,12 @@ import WeeklyPayment from "../models/weeklyPayment.model.js";
 // Create and Save a new Loan
 export const registerLoan = async (req, res) => {
     try {
-        const { clientId, amount, interestRate, total, guarantorId,loanType } = req.body;
+        const { clientId, amount, interestRate, total, guarantorId,loanType,startDate } = req.body;
+
         //asignamos la start date al domingo de la semana siguiente
-        const startDate = new Date();
-        startDate.setDate(startDate.getDate() - startDate.getDay() + 7);
+        //const startDate = new Date();
+        //startDate.setDate(startDate.getDate() - startDate.getDay() + 7);
+
         const weeklyMount = total / 15;
         //asignamos la end date 15 semanas despues de la fecha de inicio
         const endDate = new Date(startDate.getTime() + 15 * 7 * 24 * 60 * 60 * 1000);
@@ -35,7 +37,8 @@ export const registerLoan = async (req, res) => {
 //metodo para obtener todos los prestamos activos
 export const getActiveLoans = async (req, res) => {
     try {
-        const loans = await Loan.find({ paid: false });
+        //regresamos loas prestamos pero en lugar de regresar el id del cliente regresamos el nombre del cliente
+        const loans = await Loan.find({ paid: false }).populate("client", "name").populate("guarantor", "name");
         res.status(200).json(loans);
     } catch (error) {
         console.error(error);
