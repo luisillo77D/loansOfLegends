@@ -37,8 +37,8 @@ export const registerLoan = async (req, res) => {
 //metodo para obtener todos los prestamos activos
 export const getActiveLoans = async (req, res) => {
     try {
-        //regresamos loas prestamos pero en lugar de regresar el id del cliente regresamos el nombre del cliente
-        const loans = await Loan.find({ paid: false }).populate("client", "name").populate("guarantor", "name");
+        //regresamos loas prestamos pero en lugar de regresar el id del cliente regresamos el nombre del cliente y apellido
+        const loans = await Loan.find({ paid: false }).populate("client", "name lastname").populate("guarantor", "name lastname");
         res.status(200).json(loans);
     } catch (error) {
         console.error(error);
@@ -48,7 +48,7 @@ export const getActiveLoans = async (req, res) => {
 //metodo para obtener todos los prestamos
 export const getLoans = async (req, res) => {
     try {
-        const loans = await Loan.find();
+        const loans = await Loan.find().populate("client", "name lastname").populate("guarantor", "name lastname");
         res.status(200).json(loans);
     } catch (error) {
         console.error(error);
@@ -59,7 +59,7 @@ export const getLoans = async (req, res) => {
 export const getLoanById = async (req, res) => {
     try {
         const { loanId } = req.params;
-        const loan = await Loan.findById(loanId);
+        const loan = await Loan.findById(loanId).populate("client", "name lastname").populate("guarantor", "name lastname");
         if (!loan) return res.status(404).json({ message: "Loan not found" });
         res.status(200).json(loan);
     }
@@ -95,7 +95,20 @@ export const getWeeklyPayments = async (req, res) => {
 export const getLoansbyType = async (req, res) => {
     try {
         const { loanType } = req.params;
-        const loans = await Loan.find({ loanType: loanType });
+        const loans = await Loan.find({ loanType: loanType }).populate("client", "name lastname").populate("guarantor", "name lastname");
+        res.status(200).json(loans);
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
+//obtenemos los prestamos de un cliente por id
+export const getLoansbyClient = async (req, res) => {
+    try {
+        const { clientId } = req.params;
+        const loans = await Loan.find({ client: clientId }).populate("client", "name lastname").populate("guarantor", "name lastname");
+        if (!loans) return res.status(404).json({ message: "Loans not found" });
         res.status(200).json(loans);
     }
     catch (error) {

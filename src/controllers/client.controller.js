@@ -62,12 +62,3 @@ export const updateClientById = async (req, res) => {
   }
 };
 
-export const getLoansbyClient = async (req, res) => {
-  try {
-    const { clientId } = req.params;
-    const client = await Client.findById(clientId).populate("loans");
-    res.status(200).json(client.loans);
-  } catch (error) {
-    console.error(error);
-  }
-};

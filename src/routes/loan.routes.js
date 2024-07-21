@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerLoan, getActiveLoans, getLoans,getLoanById,payLoan,getWeeklyPayments,getLoansbyType} from "../controllers/loan.controller.js";
+import { registerLoan, getActiveLoans, getLoans,getLoanById,payLoan,getWeeklyPayments,getLoansbyType,getLoansbyClient} from "../controllers/loan.controller.js";
 import loanVerifications from "../middleware/registerLoan.middlewere.js";
 
 const router = Router();
@@ -11,5 +11,6 @@ router.get("/:loanId", getLoanById);
 router.put("/pay/:loanId", payLoan);
 router.get("/:loanId/payments/", getWeeklyPayments);
 router.get("/:type", getLoansbyType);
+router.get("/:clientId/loans", getLoansbyClient);
 
 export default router;
