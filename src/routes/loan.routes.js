@@ -4,7 +4,7 @@ import loanVerifications from "../middleware/registerLoan.middlewere.js";
 
 const router = Router();
 
-router.post("/register", loanVerifications, registerLoan);
+router.post("/", loanVerifications, registerLoan);
 router.get("/", getActiveLoans);
 router.get("/all", getLoans);
 router.get("/:loanId", getLoanById);
