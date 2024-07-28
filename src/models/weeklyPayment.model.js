@@ -18,6 +18,10 @@ const weeklyPaymentSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    paid: {
+        type: Boolean,
+        default: false,
+    },
     payment:{
         paymentDate: {
             type: Date,

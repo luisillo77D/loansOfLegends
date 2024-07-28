@@ -33,6 +33,17 @@ export const registerLoan = async (req, res) => {
         });
         // Save Loan in the database
         const newLoan = await loan.save();
+        //creamos los pagos semanales para las 15 semanas
+        for (let i = 0; i < 15; i++) {
+            const weeklyPayment = new WeeklyPayment({
+                loan: newLoan._id,
+                week: i + 1,
+                amountDue: weeklyMount,
+                dueDate: new Date(startDateF.getTime() + i * 7 * 24 * 60 * 60 * 1000),
+                weekNumber: i + 1,
+            });
+            await weeklyPayment.save();
+        }
         res.status(201).json(newLoan);
     } catch (error) {
         console.error(error);

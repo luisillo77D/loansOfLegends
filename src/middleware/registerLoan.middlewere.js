@@ -7,7 +7,9 @@ const loanVerifications = async (req, res, next) => {
         const { client, guarantor } = req.body;
 
         const clientV = await Client.findById(client);
-        if (!clientV) return res.status(404).json({ message: "Client not found" });
+        if (!clientV) {
+            return res.status(404).json({ message: "Client not found" });
+        }
 
         const guarantorV = await Client.findById(guarantor);
         if (!guarantorV) return res.status(400).json({ message: "Guarantor not found" });
