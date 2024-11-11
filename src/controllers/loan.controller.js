@@ -15,11 +15,6 @@ export const registerLoan = async (req, res) => {
     try {
         const { client, amount, guarantor,type,startDate } = req.body;
 
-        //asignamos la start date al domingo de la semana siguiente
-        //const startDate = new Date();
-        //startDate.setDate(startDate.getDate() - startDate.getDay() + 7);
-        //calculamos el total del prestamo
-
         //verificamos si el cliente tiene un prestamo activo del mismo tipo
         const hasActiveLoan = await verifyActiveLoan(client, type);
         if (hasActiveLoan) {
