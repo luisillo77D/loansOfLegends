@@ -2,6 +2,15 @@ import Loan from "../models/loans.model.js";
 import WeeklyPayment from "../models/weeklyPayment.model.js";
 
 // Create and Save a new Loan
+const verifyActiveLoan = async (client,type) => {
+    //buscamos si hay un prestamo activo del mismo tipo para el mismo cliente 
+    const activeLoan = await Loan.find({ client: client, loanType: type, paid: false });
+    if (activeLoan != null && activeLoan.length > 0) {
+        return true;
+    }
+    return false;
+}
+
 export const registerLoan = async (req, res) => {
     try {
         const { client, amount, interest,guarantor,type,startDate } = req.body;
@@ -10,6 +19,12 @@ export const registerLoan = async (req, res) => {
         //const startDate = new Date();
         //startDate.setDate(startDate.getDate() - startDate.getDay() + 7);
         //calculamos el total del prestamo
+
+        //verificamos si el cliente tiene un prestamo activo del mismo tipo
+        const hasActiveLoan = await verifyActiveLoan(client, type);
+        if (hasActiveLoan) {
+            return res.status(402).json({ message: "The client already has an active loan of the same type" });
+        } 
 
        //lee la fecha en formato yyyy-mm-dd y la convierte a un objeto Date
         const startDateF = new Date(startDate);
@@ -110,8 +125,9 @@ export const getWeeklyPayments = async (req, res) => {
 
 export const getLoansbyType = async (req, res) => {
     try {
-        const { loanType } = req.params;
-        const loans = await Loan.find({ loanType: loanType }).populate("client", "name lastname").populate("guarantor", "name lastname");
+        const  loanType  = req.params.loanType;
+        //filtramos los prestamos por tipo
+        const loans = await Loan.find({ loanType: loanType }).populate("client", "name lastname").populate("guarantor", "name lastname"); 
         res.status(200).json(loans);
     }
     catch (error) {

@@ -10,7 +10,7 @@ router.get("/all", getLoans);
 router.get("/:loanId", getLoanById);
 router.put("/pay/:loanId", payLoan);
 router.get("/:loanId/payments/", getWeeklyPayments);
-router.get("/:type", getLoansbyType);
+router.get("/type/:loanType", getLoansbyType);
 router.get("/:clientId/loans", getLoansbyClient);
 
 export default router;

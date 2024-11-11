@@ -36,6 +36,7 @@ export const payWeeklyPayment = async (req, res) => {
       amountPaid,
       lateFee,
     };
+    weeklyPayment.paid = true;
     await weeklyPayment.save();
     res.status(200).json(weeklyPayment);
   } catch (error) {
