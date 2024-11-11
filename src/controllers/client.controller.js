@@ -3,13 +3,16 @@ import Client from "../models/client.model.js";
 // Create and Save a new Client
 export const registerClient = async (req, res) => {
   try {
-    const { name, lastname, address, phone } = req.body;
+    const { name, lastname, address, } = req.body;
+
+    //verificamos si el cliente ya existe
+    const clientExist = await Client.findOne({ name, lastname });
+    if (clientExist) return res.status(400).json({ message: "Client already exists" });
     // Create a Client
     const client = new Client({
       name,
       lastname,
       address,
-      phone,
     });
     // Save Client in the database
     const newClient = await client.save();

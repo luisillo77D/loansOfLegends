@@ -13,7 +13,7 @@ const verifyActiveLoan = async (client,type) => {
 
 export const registerLoan = async (req, res) => {
     try {
-        const { client, amount, interest,guarantor,type,startDate } = req.body;
+        const { client, amount, guarantor,type,startDate } = req.body;
 
         //asignamos la start date al domingo de la semana siguiente
         //const startDate = new Date();
@@ -28,9 +28,7 @@ export const registerLoan = async (req, res) => {
 
        //lee la fecha en formato yyyy-mm-dd y la convierte a un objeto Date
         const startDateF = new Date(startDate);
-        console.log(startDateF);
-        const total = (Number(amount) + (Number(amount) * Number(interest) / 100));
-        const weeklyMount = total / 15;
+        const weeklyMount = amount / 15;
         //asignamos la end date 15 semanas despues de la fecha de inicio
         const endDate = new Date(startDateF.getTime() + 15 * 7 * 24 * 60 * 60 * 1000);
         console.log(endDate);
@@ -38,8 +36,6 @@ export const registerLoan = async (req, res) => {
         const loan = new Loan({
             client,
             amount,
-            interest,
-            total,
             weeklyMount,
             guarantor,
             startDate: startDateF,

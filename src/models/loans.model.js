@@ -10,14 +10,6 @@ const loanSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    interest: {
-        type: Number,
-        required: true,
-    },
-    total: {
-        type: Number,
-        required: true,
-    },
     weeklyMount: {
         type: Number,
         required: true,
