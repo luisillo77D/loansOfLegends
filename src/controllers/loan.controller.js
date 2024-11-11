@@ -28,6 +28,8 @@ export const registerLoan = async (req, res) => {
 
        //lee la fecha en formato yyyy-mm-dd y la convierte a un objeto Date
         const startDateF = new Date(startDate);
+        startDateF.setDate(startDateF.getDate() - startDateF.getDay() + 7);
+        
         const weeklyMount = amount / 15;
         //asignamos la end date 15 semanas despues de la fecha de inicio
         const endDate = new Date(startDateF.getTime() + 15 * 7 * 24 * 60 * 60 * 1000);
